@@ -1,0 +1,15 @@
+class BuyOrder
+				types
+								public string = Car`string;
+								
+        instance variables
+        				private quantity: nat;
+                private model: string;
+                private color:  string;
+                private minYear: nat;
+                private minMileage: nat;
+                private maxMileage: nat;
+                private maxPrice: nat;
+                inv minMileage <= maxMileage;
+        				inv minYear <= 2014;
+end BuyOrder

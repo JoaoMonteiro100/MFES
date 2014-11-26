@@ -1,0 +1,14 @@
+class SellOrder
+				types
+								public string = Car`string;
+
+        instance variables
+        				private orderSize: nat;
+        				private minBuySize: nat;
+                private model: string;
+                private color:  string;
+                private year: nat;
+                private mileage: nat;
+                private minPrice: nat;
+        				
+end SellOrder

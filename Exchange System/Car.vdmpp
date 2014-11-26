@@ -1,0 +1,20 @@
+class Car
+				types
+								public string = seq of char;
+								
+        instance variables				
+                private model: string;
+                private color:  string;
+                private year: nat;
+                private mileage: nat;
+                private price: nat;
+                private sold: bool;
+                inv year <= 2014;
+                
+        operations
+                public Car: string | string | nat | nat ==> Car
+                Car(m, c, y, ml) == (model := m; color := c; year := y; mileage := ml; return self)
+                post sold = false and model = m and color = c and year = y and mileage = ml;
+
+                
+end Car
