@@ -9,7 +9,7 @@ class Car
     private mileage: nat;
     private price: real;
     private sold: bool := false;
-    inv year <= 2014 and year >= 1970;
+    inv year <= 2014;
     inv price > 0.0;
         
 	operations

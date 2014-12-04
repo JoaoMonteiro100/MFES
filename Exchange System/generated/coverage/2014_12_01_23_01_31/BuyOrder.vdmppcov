@@ -9,6 +9,6 @@ class BuyOrder
     private minYear: nat;
     private maxMileage: nat;
     private maxPrice: real;
-  	inv minYear <= 2014 and minYear >= 1970;
+  	inv minYear <= 2014;
   	
 end BuyOrder
