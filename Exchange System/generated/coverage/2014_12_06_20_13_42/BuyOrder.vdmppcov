@@ -1,14 +1,23 @@
 class BuyOrder
 	types
 		public String = seq of char;
+		public Status = <Purchased> | <Pending> | <Canceled>;
 					
 	instance variables
+		public id: nat1;
+		public status: Status := <Pending>;
   	private quantity: nat1;
     private model: String;
     private color:  String;
     private minYear: nat;
     private maxMileage: nat;
     private maxPrice: real;
-  	inv minYear <= 2014;
+  	inv minYear <= 2014 and minYear >= 1970;
+  	
+  operations
+  	public setID(i:nat1) ==
+    	(
+    		id := i;
+    	);
   	
 end BuyOrder

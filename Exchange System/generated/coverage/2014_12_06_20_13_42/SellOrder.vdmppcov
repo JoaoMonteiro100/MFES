@@ -41,14 +41,14 @@ class SellOrder
     		id := i;
     	);
     	
-    --	public specificSellOrder() res: bool ==
-    --	(
-    	--	IO`println("Model?");
+    	public specificSellOrder() res: bool ==
+    	(
+    		IO`println("Model?");
     	
     	
-    	--	ExchangeSystem`placeSellOrder(self);
+    		ExchangeSystem`placeSellOrder(self);
     	
-    		--return true;
-    	--)
-    	--ext wr model, color, year, mileage, minPrice, minBuySize, orderSize
+    		return true;
+    	)
+    	ext wr model, color, year, mileage, minPrice, minBuySize, orderSize
 end SellOrder

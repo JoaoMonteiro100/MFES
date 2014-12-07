@@ -1,0 +1,44 @@
+class SellOrder
+	types
+		public String = seq of char;
+		public Status = <Sold> | <Pending> | <Canceled>
+
+	instance variables
+		public id: nat := 0;
+		public status: Status := <Pending>;
+		public orderSize: nat1;
+		public minBuySize: nat1;
+    public model: String;
+    public color: String;
+    public year: nat;
+    public mileage: nat;
+    public minPrice: real;
+    inv minPrice > 0.0;
+    inv year <= 2014 and year >= 1970;
+    
+    operations
+    	public SellOrder(m:String, c:String, y:nat, mi:nat, mp:real, mbs:nat, os:nat) res: SellOrder ==
+      (
+        model := m;
+        color := c;
+        year := y; 
+        mileage := mi; 
+        minPrice := mp; 
+        minBuySize := mbs; 
+        orderSize := os; 
+        return self
+       )
+       ext wr model, color, year, mileage, minPrice, minBuySize, orderSize
+       post model = m and color = c and year = y and mileage = mi and minPrice = mp and minBuySize = mbs and orderSize = os;
+    	
+    	
+    	public specificSellOrder() res: bool ==
+    	(
+    		ExchangeSystem`placeSellOrder(self);
+    	
+    		return true;
+    	)
+    	
+   			 	 
+    		ext wr model, color, year, mileage, minPrice, minBuySize, orderSize
+end SellOrder
