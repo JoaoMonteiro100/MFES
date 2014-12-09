@@ -3,9 +3,6 @@ class ExchangeSystem
 	Defines the state variables and operations available to the users (both sellers and buyers).
 	Class 5, T3, FEUP, MFES, 2014/2015
 */
-	types
-		public String = seq of char;
-		
 	instance variables
 		public sellOrders: seq of SellOrder := [];
 		public buyOrders: seq of BuyOrder := [];
@@ -25,12 +22,11 @@ class ExchangeSystem
 			IO`println("Model?");
 		);
 		
-		public readFromFile() ==
-		(
-			def mk_(-,input) = IO`freadval[seq of char](filename)
+		public Environment : String ==> Environment
+			Environment(fname) ==
+			def mk_(-,input) = io.freadval[seq of inline](fname)
 			in
-			IO`println(input);
-		);
+			inlines := input;
 		
 		
 		public placeSellOrder(so:SellOrder) ==

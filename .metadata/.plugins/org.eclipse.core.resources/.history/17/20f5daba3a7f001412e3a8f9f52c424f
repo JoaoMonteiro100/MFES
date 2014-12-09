@@ -25,9 +25,9 @@ class ExchangeSystem
 			IO`println("Model?");
 		);
 		
-		public readFromFile() ==
+		public readFromFile(fname: seq of char) ==
 		(
-			def mk_(-,input) = IO`freadval[seq of char](filename)
+			def mk_(-,input) = IO`freadval[seq of char](fname)
 			in
 			IO`println(input);
 		);

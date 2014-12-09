@@ -7,6 +7,7 @@ class ExchangeSystem
 		public String = seq of char;
 		
 	instance variables
+		public static env : [Car] := "test.txt";
 		public sellOrders: seq of SellOrder := [];
 		public buyOrders: seq of BuyOrder := [];
 		public value: bool * seq1 of char;
@@ -25,12 +26,11 @@ class ExchangeSystem
 			IO`println("Model?");
 		);
 		
-		public readFromFile() ==
-		(
-			def mk_(-,input) = IO`freadval[seq of char](filename)
+		public Environment : String ==> Environment
+			Environment(fname) ==
+			def mk_(-,input) = io.freadval[seq of inline](fname)
 			in
-			IO`println(input);
-		);
+			inlines := input;
 		
 		
 		public placeSellOrder(so:SellOrder) ==
