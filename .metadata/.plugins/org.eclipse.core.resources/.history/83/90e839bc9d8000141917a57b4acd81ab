@@ -1,0 +1,37 @@
+class BuyOrder
+	types
+		public String = seq of char;
+		public Status = <Purchased> | <Pending> | <Canceled>;
+					
+	instance variables
+		public id: nat1;
+		public status: Status := <Pending>;
+  	private quantity: nat1;
+    private model: Car`CarModel;
+    private color:  Car`CarColor;
+    private minYear: nat;
+    private maxMileage: nat;
+    private maxPrice: real;
+  	inv minYear <= 2014 and minYear >= 1970;
+  	
+  operations
+  	public BuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat1, mi:nat, mp:real, q:nat) res: BuyOrder ==
+      (
+        model := m;
+        color := c;
+        if minYear = 0 then minYear := 1970 else minYear := y;
+        if maxMileage = 0 then maxMileage := 999999 else maxMileage := mi;
+        if maxPrice = 0 then maxPrice := 999999 else maxPrice := mp;
+        quantity := q; 
+        return self
+       )
+       ext wr model, color, minYear, maxMileage, maxPrice, quantity
+       post model = m and color = c and minYear = y and maxMileage = mi and maxPrice = mp and quantity = q;
+  
+  
+  	public setID(i:nat1) ==
+    	(
+    		id := i;
+    	);
+  	
+end BuyOrder
