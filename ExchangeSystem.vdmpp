@@ -8,9 +8,9 @@ class ExchangeSystem
 		
 	instance variables
 		public sellOrders: seq of SellOrder := [];
-		public buyOrders: seq of BuyOrder := [];
 		public so: SellOrder;
-		public bo: BuyOrder;	
+		public bo: BuyOrder;
+		public buyOrders: seq of BuyOrder := [];
 		--public value: bool * seq1 of char;
 		--public filename: seq1 of char := "test.txt";
 
@@ -20,31 +20,23 @@ class ExchangeSystem
 			return self;
 		);
 		
-		--Seller operations
 		public addSellOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res: SellOrder ==
-    (
-     	so := new SellOrder(m,c,y,mi,p,mbs,os);
-      placeSellOrder(so);
-      return so;
-    )
-    ext wr so;
-    --post so = ;
-    
-    public placeSellOrder(so:SellOrder) ==
-    (
-   		so.setID(len sellOrders + 1);
-   		sellOrders := sellOrders ^ [so]
-    )
-    ext wr sellOrders;
-    --post sellOrders = sellOrders ^ [so];
+      (
+        so := new SellOrder(m,c,y,mi,p,mbs,os);
+        placeSellOrder(so);
+        return so;
+       )
+       ext wr so;
+       --post so = ;
        
-    public cancelSale(id:nat1) res: bool ==
-		(
-			if sellOrders(id).status <> <Canceled> then sellOrders(id).status := <Canceled>;
-			return true;
-		)
-		ext wr sellOrders
-		pre len sellOrders > 0;
+    public addBuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
+      (
+        bo := new BuyOrder(m,c,y,mi,mp,q);
+        placeBuyOrder(bo);
+        checkSellOrders(bo);
+        return bo;
+       )
+       ext wr bo;
 	
 		/*
 		readFromFile : seq of char ==> seq of char
@@ -63,17 +55,24 @@ class ExchangeSystem
 		);
 		*/
 		
-
-    --Buyer operations
-    public addBuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
+		public placeSellOrder(so:SellOrder) ==
     (
-	      bo := new BuyOrder(m,c,y,mi,mp,q);
-	      placeBuyOrder(bo);
-	      checkSellOrders(bo);
-	      return bo;
-     )
-     ext wr bo;
-    
+   		so.setID(len sellOrders + 1);
+   		sellOrders := sellOrders ^ [so]
+    )
+    ext wr sellOrders;
+    --post sellOrders = sellOrders ^ [so];
+		
+		
+		public cancelSale(id:nat1) res: bool ==
+		(
+			if sellOrders(id).status <> <Canceled> then sellOrders(id).status := <Canceled>;
+			return true;
+		)
+		ext wr sellOrders
+		pre len sellOrders > 0;
+		
+    --Buyer operations
     public placeBuyOrder(bo:BuyOrder) ==
     (
     	bo.setID(len buyOrders + 1);
