@@ -33,7 +33,6 @@ class ExchangeSystem
       (
         bo := new BuyOrder(m,c,y,mi,mp,q);
         placeBuyOrder(bo);
-        checkSellOrders(bo);
         return bo;
        )
        ext wr bo;
@@ -81,6 +80,7 @@ class ExchangeSystem
     ext wr buyOrders;
     --post buyOrders = buyOrders ^ [bo];
     
+    
     public cancelPurchase(id:nat1) res: bool ==
     (
     	if buyOrders(id).status <> <Canceled> then buyOrders(id).status := <Canceled>;
@@ -88,16 +88,5 @@ class ExchangeSystem
 		)
 		ext wr buyOrders
 		pre len buyOrders > 0;
-    
-    public checkSellOrders(bo:BuyOrder) ==
-    	for i = 1 to len sellOrders do
-    	(
-    		if sellOrders(i).minBuySize <= bo.quantity then
-	    	(
-					IO`println("cheguei");
-    		)
-
-    	)
-    	ext wr sellOrders, buyOrders, bo, so;
     
 end ExchangeSystem

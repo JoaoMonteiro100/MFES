@@ -89,15 +89,6 @@ class ExchangeSystem
 		ext wr buyOrders
 		pre len buyOrders > 0;
     
-    public checkSellOrders(bo:BuyOrder) ==
-    	for i = 1 to len sellOrders do
-    	(
-    		if sellOrders(i).minBuySize <= bo.quantity then
-	    	(
-					IO`println("cheguei");
-    		)
-
-    	)
-    	ext wr sellOrders, buyOrders, bo, so;
+    public checkSellOrders(bo:BuyOrder)
     
 end ExchangeSystem
