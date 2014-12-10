@@ -20,7 +20,7 @@ class ExchangeSystem
 			return self;
 		);
 		
-		public addSellOrder(m:Car`CarModel, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat, os:nat) res: SellOrder ==
+		public addSellOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res: SellOrder ==
       (
         so := new SellOrder(m,c,y,mi,p,mbs,os);
         placeSellOrder(so);
@@ -29,7 +29,7 @@ class ExchangeSystem
        ext wr so;
        --post so = ;
        
-    public addBuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat1, mi:nat, mp:real, q:nat) res: BuyOrder ==
+    public addBuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
       (
         bo := new BuyOrder(m,c,y,mi,mp,q);
         placeBuyOrder(bo);
@@ -94,9 +94,28 @@ class ExchangeSystem
     	(
     		if sellOrders(i).minBuySize <= bo.quantity then
 	    	(
-					IO`println("cheguei");
+	    		if sellOrders(i).car.model = bo.model or bo.model = "" then
+	    		(
+	    			if sellOrders(i).car.color = bo.color or bo.color = <Null> then
+	    			(
+	    				if sellOrders(i).car.year >= bo.minYear then
+	    				(
+	    					if sellOrders(i).car.mileage <= bo.maxMileage then
+	    					(
+	    						if sellOrders(i).car.price <= bo.maxPrice then
+	    						(
+	    							IO`println("cheguei");
+	    							/*
+	    							FALTA:
+	    							- alterar status de buyorder e sellorder (de pendente para comprado/vendido)
+	    							- acrescentar texto estilo "encomenda n.º 1 satisfeita pela venda n.º 2"
+	    							*/
+	    						)
+	    					)
+	    				)
+	    			)
+    			)
     		)
-
     	)
     	ext wr sellOrders, buyOrders, bo, so;
     
