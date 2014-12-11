@@ -1,0 +1,33 @@
+class SellOrder
+/*
+	Defines the seller sales proposal.
+	Class 5, T3, FEUP, MFES, 2014/2015
+*/
+	types
+		public Status = <Sold> | <Pending> | <Canceled>;
+		
+	instance variables
+		public id: nat := 1;
+		public car: Car;
+		public status: Status := <Pending>;
+		public maxBuySize: nat1;
+		public minBuySize: nat1;
+    
+    operations
+    	public SellOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res: SellOrder ==
+      (
+        car := new Car(m,c,y,mi,p);
+        minBuySize := mbs; 
+        maxBuySize := os;
+        return self
+      )
+      ext wr car, minBuySize, maxBuySize
+      post minBuySize = mbs and maxBuySize = os;
+    	
+    	
+    	public setID(i:nat1) ==
+    	(
+    		id := i;
+    	);
+    	
+end SellOrder

@@ -1,0 +1,42 @@
+class BuyOrder
+/*
+	Defines the buyer purchase proposal.
+	Class 5, T3, FEUP, MFES, 2014/2015
+*/
+	types
+		public String = seq of char;
+		public Status = <Purchased> | <Pending> | <Canceled>;
+					
+	instance variables
+		public id: nat1 := 1;
+		public status: Status := <Pending>;
+  	public quantity: nat;
+    public model: String;
+    public color: Car`CarColor;
+    public minYear: nat;
+    public maxMileage: nat;
+    public maxPrice: real;
+  	inv minYear <= 2014 and minYear >= 1970;
+  	
+  operations
+  	public BuyOrder(m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
+     (
+        model := m; 
+        color := c;
+        if y = 0 then minYear := 1970 else minYear := y;
+        if mi = 0 then maxMileage := 999999 else maxMileage := mi;
+        if mp = 0 then maxPrice := 999999 else maxPrice := mp;
+        quantity := q;
+        return self
+     )
+     ext wr model, color, minYear, maxMileage, maxPrice, quantity
+     post model = m and color = c and quantity = q;
+  
+  	public setID(i:nat1) ==
+    (
+    		id := i;
+    )
+    ext wr id
+    post id = i;
+  	
+end BuyOrder
