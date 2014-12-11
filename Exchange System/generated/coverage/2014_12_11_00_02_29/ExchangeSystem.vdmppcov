@@ -108,11 +108,14 @@ class ExchangeSystem
 	    							sellOrders(i).status := <Sold>;
 	    							bo.status := <Purchased>;
 	    							
-	    							IO`print("Purchase proposal number ");
+	    							IO`println("Pu\nrchase proposal number ");
 	    							IO`print(bo.id);
 	    							IO`print("assigned to sales number ");
 	    							IO`print(sellOrders(i).id);
-										IO`print("\n\n");
+	    							/*
+	    							FALTA:
+	    							- acrescentar texto estilo "encomenda n.º 1 satisfeita pela venda n.º 2"
+	    							*/
 	    						)
 	    					)
 	    				)
