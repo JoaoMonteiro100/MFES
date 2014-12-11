@@ -1,0 +1,27 @@
+class TestExchangeSystem is subclass of MyTestCase
+
+operations
+/*
+  Contains the test cases for the exchange system.
+  Illustrates a scenario-based testing approach.
+  Class 5, T3, FEUP, MFES, 2014/2015.
+*/
+
+	/***** USE CASE SCENARIOS ******/
+	 /*
+	 Requirement R05 - Year's car canno't be bigger than 2014 (current year) neither smaller than 1970.
+	 */
+	 
+	 
+	 
+	 public minimumYearCar() res:bool ==
+	 (
+	 	--	for i = 1 to len ExchangeSystem`sellOrders do
+	 		--	assertNotLesser(1970, ExchangeSystem`sellOrders(i).car.year);
+	 		IO`print("OLAAAAAA");
+	 		return true;
+	 	--	return true;
+	 )
+	 --ext rd ExchangeSystem`sellOrders;
+	 
+end TestExchangeSystem

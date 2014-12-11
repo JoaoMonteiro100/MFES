@@ -1,0 +1,13 @@
+class TestExchangeSystem
+
+operations
+/*
+  Contains the test cases for the exchange system.
+  Illustrates a scenario-based testing approach.
+  Class 5, T3, FEUP, MFES, 2014/2015.
+*/
+
+	/***** USE CASE SCENARIOS ******/
+	 
+
+end TestExchangeSystem
