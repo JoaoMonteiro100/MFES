@@ -1,0 +1,68 @@
+class TestExchangeSystem is subclass of MyTestCase
+
+operations
+/*
+  Contains the test cases for the exchange system.
+  Illustrates a scenario-based testing approach.
+  Class 5, T3, FEUP, MFES, 2014/2015.
+*/
+
+	/***** USE CASE SCENARIOS ******/
+	 /*
+	 Requirement R05 - Car year canno't be bigger than 2014 (current year) neither smaller than 1970.
+	 */
+
+	 public yearCarSales(e:ExchangeSystem) res:bool ==
+	 (
+	 		for i = 1 to len e.getSellOrders() do
+	 		(
+	 			assertNotLesser(1970, e.getSellOrders()(i).getCar().getYear());
+	 			assertNotGreater(2014, e.getSellOrders()(i).getCar().getYear());
+	 			
+	 		);
+	 		return true;
+	 );
+	 
+	 public yearCarPurchases(e:ExchangeSystem) res:bool ==
+	 (
+	 	for i = 1 to len e.getBuyOrders() do
+	 		(
+	 			assertNotLesser(1970, e.getBuyOrders()(i).getMinYear());
+	 			assertNotGreater(2014, e.getBuyOrders()(i).getMinYear());
+	 		);
+	 		return true;
+	 );
+	 
+	  /*
+	 Requirement R06 - Car price canno't be bigger than 999999 neither smaller than 0.0
+	 */
+	 
+	 
+	 public priceCarSales(e:ExchangeSystem) res:bool ==
+	 (
+	 		for i = 1 to len e.sellOrders do
+	 		(
+	 			assertNotLesser(0.0, e.sellOrders(i).car.price);
+	 			assertNotGreater(999999, e.sellOrders(i).car.price);
+	 			
+	 		);
+	 		return true;
+	 );
+	 
+	  public priceCarPurchases(e:ExchangeSystem) res:bool ==
+	 (
+	 		for i = 1 to len e.buyOrders do
+	 		(
+	 			assertNotLesser(0.0, e.buyOrders(i).maxPrice);
+	 			assertNotGreater(999999, e.buyOrders(i).maxPrice);
+	 			
+	 		);
+	 		return true;
+	 );
+	 
+	 /*
+	 Requirement R08 - Year's car canno't be bigger than 2014 (current year) neither smaller than 1970.
+	 */
+	 
+	 
+end TestExchangeSystem

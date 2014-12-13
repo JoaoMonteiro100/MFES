@@ -1,0 +1,137 @@
+class SellOrder
+/*
+	Defines the seller sales proposal.
+	Class 5, T3, FEUP, MFES, 2014/2015
+*/
+	types
+		public Status = <Sold> | <Pending> | <Canceled>;
+		
+	instance variables
+		private id: nat1 := 1;
+		private status: Status := <Pending>;
+		private car: Car;
+		private size: nat1;
+		private minBuySize: nat1;
+		inv size >= minBuySize;
+    
+    operations
+    	/*
+    	* Constructor
+    	*/
+    	public SellOrder(m:Car`CarModel, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, os:nat1) res: SellOrder ==
+      (
+        car := new Car(m,c,y,mi,p);
+        minBuySize := mbs; 
+        maxBuySize := os;
+        return self
+      )
+      ext wr car, minBuySize, size
+      post minBuySize = mbs and maxBuySize = os;
+    	
+    	--------------------- GETS & SETS ---------------------
+  	
+  	public getID() res: nat1 ==
+  	(
+  		return id;
+  	)
+  	ext rd id;
+  	
+  	public setID(i:nat1) ==
+    (
+    		id := i;
+    )
+    ext wr id
+    post id = i;
+    
+    public getStatus() res: Status ==
+  	(
+  		return status;
+  	)
+  	ext rd status;
+  	
+  	public setStatus(s:Status) ==
+    (
+    		status := s;
+    )
+    ext wr status
+    post status = s;
+    
+    public getCar() res: Car ==
+  	(
+  		return car;
+  	)
+  	ext rd car;
+  	
+  	public setCar(c:Car) ==
+    (
+    		car := c;
+    )
+    ext wr car
+    post car = c;
+    
+    public getModel() res: String ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:String) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getColor() res: Car`CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:Car`CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+    
+    public getMinYear() res: nat ==
+  	(
+  		return minYear;
+  	)
+  	ext rd minYear;
+  	
+  	public setMinYear(my:nat) ==
+    (
+    		minYear := my;
+    )
+    ext wr minYear
+    post minYear = my;
+    
+    public getMaxMileage() res: nat ==
+  	(
+  		return maxMileage;
+  	)
+  	ext rd maxMileage;
+  	
+  	public setMaxMileage(mm:nat) ==
+    (
+    		maxMileage := mm;
+    )
+    ext wr maxMileage
+    post maxMileage = mm;
+    
+    public getMaxPrice() res: nat ==
+  	(
+  		return maxPrice;
+  	)
+  	ext rd maxPrice;
+  	
+  	public setMaxPrice(mp:nat) ==
+    (
+    		maxPrice := mp;
+    )
+    ext wr maxPrice
+    post maxPrice = mp;
+    	
+end SellOrder

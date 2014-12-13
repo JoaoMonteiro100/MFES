@@ -4,31 +4,99 @@ class Car
 	Class 5, T3, FEUP, MFES, 2014/2015 
 */
 	types
-		public CarModel = seq of char;
+		public String = seq of char;
 		public CarColor = <Black> | <White> | <Red> | <Blue> | <Green> | <Yellow> | <Gray> | <Null>;
 				
 	instance variables				
-  	public model: CarModel;
-    public color: CarColor;
-    public year: nat1;
-    public mileage: nat;
-    public price: real;
-    --public sold: bool := false;
+  	private model: String;
+    private color: CarColor;
+    private year: nat1;
+    private mileage: nat;
+    private price: real;
     inv year <= 2014 and year >= 1970;
     inv price > 0.0;
     
-        
 	operations
-        public Car(m:CarModel, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
-        (	
-        	model := m; 
-        	color := c; 
-        	year := y; 
-        	mileage := mi;
-        	price := p;
-        	return self;
-        )
-        ext wr model, color, year, mileage, price
-        post model = m and color = c and year = y and mileage = mi and price = p;
+		/*
+		* Constructor
+		*/
+    public Car(m:String, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
+    (	
+    	model := m; 
+    	color := c; 
+    	year := y; 
+    	mileage := mi;
+    	price := p;
+    	return self;
+    )
+    ext wr model, color, year, mileage, price
+    post model = m and color = c and year = y and mileage = mi and price = p;
+    
+    --------------------- GETS & SETS ---------------------
+        
+		public getModel() res: String ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:String) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getColor() res: CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+    
+    public getYear() res: nat1 ==
+  	(
+  		return year;
+  	)
+  	ext rd year;
+  	
+  	public setYear(y:nat1) ==
+    (
+    		year := y;
+    )
+    ext wr year
+    post year = y;
+    
+    public getMileage() res: nat ==
+  	(
+  		return mileage;
+  	)
+  	ext rd mileage;
+  	
+  	public setMileage(m:nat) ==
+    (
+    		mileage := m;
+    )
+    ext wr mileage
+    post mileage = m;
+    
+    public getPrice() res: real ==
+  	(
+  		return price;
+  	)
+  	ext rd price;
+  	
+  	public setPrice(p:real) ==
+    (
+    		price := p;
+    )
+    ext wr price
+    post price = p;
         
 end Car

@@ -1,0 +1,102 @@
+class Car
+/*
+	Defines a car on sale placed by seller agent.
+	Class 5, T3, FEUP, MFES, 2014/2015 
+*/
+	types
+		public CarModel = seq of char;
+		public CarColor = <Black> | <White> | <Red> | <Blue> | <Green> | <Yellow> | <Gray> | <Null>;
+				
+	instance variables				
+  	private model: CarModel;
+    private color: CarColor;
+    private year: nat1;
+    private mileage: nat;
+    private price: real;
+    inv year <= 2014 and year >= 1970;
+    inv price > 0.0;
+    
+	operations
+		/*
+		* Constructor
+		*/
+    public Car(m:CarModel, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
+    (	
+    	model := m; 
+    	color := c; 
+    	year := y; 
+    	mileage := mi;
+    	price := p;
+    	return self;
+    )
+    ext wr model, color, year, mileage, price
+    post model = m and color = c and year = y and mileage = mi and price = p;
+    
+        --------------------- GETS & SETS ---------------------
+        
+		public getModel() res: CarModel ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:CarModel) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getColor() res: CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+    
+    public getMinYear() res: nat ==
+  	(
+  		return minYear;
+  	)
+  	ext rd minYear;
+  	
+  	public setMinYear(my:nat) ==
+    (
+    		minYear := my;
+    )
+    ext wr minYear
+    post minYear = my;
+    
+    public getMaxMileage() res: nat ==
+  	(
+  		return maxMileage;
+  	)
+  	ext rd maxMileage;
+  	
+  	public setMaxMileage(mm:nat) ==
+    (
+    		maxMileage := mm;
+    )
+    ext wr maxMileage
+    post maxMileage = mm;
+    
+    public getMaxPrice() res: nat ==
+  	(
+  		return maxPrice;
+  	)
+  	ext rd maxPrice;
+  	
+  	public setMaxPrice(mp:nat) ==
+    (
+    		maxPrice := mp;
+    )
+    ext wr maxPrice
+    post maxPrice = mp;
+        
+end Car

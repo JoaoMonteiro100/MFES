@@ -14,10 +14,10 @@ operations
 
 	 public yearCarSales(e:ExchangeSystem) res:bool ==
 	 (
-	 		for i = 1 to len e.sellOrders do
+	 		for i = 1 to len e.getSellOrders() do
 	 		(
-	 			assertNotLesser(1970, e.sellOrders(i).car.year);
-	 			assertNotGreater(2014, e.sellOrders(i).car.year);
+	 			assertNotLesser(1970, e.getSellOrders()(i).getCar().getYear());
+	 			assertNotGreater(2014, e.getSellOrders()(i).getCar().getYear());
 	 			
 	 		);
 	 		return true;
@@ -25,10 +25,10 @@ operations
 	 
 	 public yearCarPurchases(e:ExchangeSystem) res:bool ==
 	 (
-	 	for i = 1 to len e.buyOrders do
+	 	for i = 1 to len e.getBuyOrders() do
 	 		(
-	 			assertNotLesser(1970, e.buyOrders(i).minYear);
-	 			assertNotGreater(2014, e.buyOrders(i).minYear);
+	 			assertNotLesser(1970, e.getBuyOrders()(i).getMinYear());
+	 			assertNotGreater(2014, e.getBuyOrders()(i).getMinYear());
 	 		);
 	 		return true;
 	 );
@@ -40,10 +40,10 @@ operations
 	 
 	 public priceCarSales(e:ExchangeSystem) res:bool ==
 	 (
-	 		for i = 1 to len e.sellOrders do
+	 		for i = 1 to len e.getSellOrders() do
 	 		(
-	 			assertNotLesser(0.0, e.sellOrders(i).car.price);
-	 			assertNotGreater(999999, e.sellOrders(i).car.price);
+	 			assertNotLesser(0.0, e.getSellOrders()(i).getCar().getPrice());
+	 			assertNotGreater(999999, e.getSellOrders()(i).getCar().getPrice());
 	 			
 	 		);
 	 		return true;
@@ -51,10 +51,10 @@ operations
 	 
 	  public priceCarPurchases(e:ExchangeSystem) res:bool ==
 	 (
-	 		for i = 1 to len e.buyOrders do
+	 		for i = 1 to len e.getBuyOrders() do
 	 		(
-	 			assertNotLesser(0.0, e.buyOrders(i).maxPrice);
-	 			assertNotGreater(999999, e.buyOrders(i).maxPrice);
+	 			assertNotLesser(0.0, e.getBuyOrders()(i).getMaxPrice());
+	 			assertNotGreater(999999, e.getBuyOrders()(i).getMaxPrice());
 	 			
 	 		);
 	 		return true;

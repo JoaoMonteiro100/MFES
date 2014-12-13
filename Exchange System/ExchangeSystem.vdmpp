@@ -7,21 +7,70 @@ class ExchangeSystem
 		public String = seq of char;
 		
 	instance variables
-		public sellOrders: seq of SellOrder := [];
-		public buyOrders: seq of BuyOrder := [];
-		public so: SellOrder;
-		public bo: BuyOrder;	
-		--public value: bool * seq1 of char;
-		--public filename: seq1 of char := "test.txt";
+		private sellOrders: seq of SellOrder := [];
+		private buyOrders: seq of BuyOrder := [];
+		private profits: real;
+		private so: SellOrder;
+		private bo: BuyOrder;	
 
 	operations
+		/*
+		* Constructor
+		*/
 		public ExchangeSystem() res: ExchangeSystem ==
 		(
 			return self;
 		);
 		
-		--Seller operations
-		public addSellOrder(m:Car`CarModel, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, os:nat1) res: SellOrder ==
+		
+		--------------------- GETS & SETS ---------------------
+        
+		public getSellOrders() res: seq of SellOrder ==
+  	(
+  		return sellOrders;
+  	)
+  	ext rd sellOrders;
+  	
+  	public setSellOrders(so:seq of SellOrder) ==
+    (
+    		sellOrders := so;
+    )
+    ext wr sellOrders
+    post sellOrders = so;
+    
+    public getBuyOrders() res: seq of BuyOrder ==
+  	(
+  		return buyOrders;
+  	)
+  	ext rd buyOrders;
+  	
+  	public setBuyOrders(bo:seq of BuyOrder) ==
+    (
+    		buyOrders := bo;
+    )
+    ext wr buyOrders
+    post buyOrders = bo;
+    
+    public getProfits() res: real ==
+  	(
+  		return profits;
+  	)
+  	ext rd profits;
+  	
+  	public addProfits(p:real) ==
+    (
+    		profits := profits~ + p;
+    )
+    ext wr profits
+    post profits = profits~ + p;
+    
+		
+		--------------------- SELLER OPERATIONS ---------------------
+		
+		/*
+		* Enables sellers to post their cars to the exchange system
+		*/
+		public addSellOrder(m:String, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, os:nat1) res: SellOrder ==
     (
      	so := new SellOrder(m,c,y,mi,p,mbs,os);
       placeSellOrder(so);
@@ -29,6 +78,9 @@ class ExchangeSystem
     )
     ext wr so;
     
+    /*
+		* Takes a sell order and puts it in the vector with all the sell orders
+		*/
     public placeSellOrder(so:SellOrder) ==
     (
    		so.setID(len sellOrders + 1);
@@ -36,16 +88,21 @@ class ExchangeSystem
     )
     ext wr sellOrders;
    -- post sellOrders = sellOrders~ ^ [so];
-       
+    
+    /*
+		* Cancels a sell order (NOTE: it doesn't delete it, just changes its status)
+		*/   
     public cancelSale(id:nat1) res: bool ==
 		(
-			if sellOrders(id).status <> <Canceled> then sellOrders(id).status := <Canceled>;
+			if sellOrders(id).getStatus() <> <Canceled> then sellOrders(id).setStatus(<Canceled>);
 			return true;
 		)
 		ext wr sellOrders
 		pre len sellOrders > 0;
 	
-	
+		/*
+		* Lists all the sell orders
+		*/
 		public listSales() ==
 		(
 			for i = 1 to len sellOrders do
@@ -54,48 +111,38 @@ class ExchangeSystem
 		ext rd sellOrders
 		pre len sellOrders > 0;
 		
-		public updateSale(i:nat1, m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res:bool ==
+		/*
+		* Edit of an existing sale order (its ID is mandatory)
+		*/
+		public updateSale(i:nat1, m:String, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res:bool ==
 		(
 			if m <> "" 
-				then sellOrders(i).car.model := m;
+				then sellOrders(i).car.setModel(m);
 			if c <> <Null>	
-				then sellOrders(i).car.color := c;
+				then sellOrders(i).car.setColor(c);
 			if y <> 0
-				then sellOrders(i).car.year := y;
+				then sellOrders(i).car.setYear(y);
 			if mi <> 0	
-				then sellOrders(i).car.mileage := mi;
+				then sellOrders(i).car.setMileage(mi);
 			if p <> 0.0
-				then sellOrders(i).car.price := p;
+				then sellOrders(i).car.setPrice(p);
 			if mbs <> 0
-				then sellOrders(i).minBuySize := mbs;
+				then sellOrders(i).setMinBuySize(mbs);
 			if os <> 0
-				then sellOrders(i).maxBuySize := os;
+				then sellOrders(i).setSize(os);
 			return true;
 		)
 		ext wr sellOrders
 		pre len sellOrders > 0;
 		
 		
-		/*
-		readFromFile : seq of char ==> seq of char
-		readFromFile (fname) ==
-  		def mk_(-,mk_input) = IO`freadval[seq of char](fname) 
-  			in (value := input
-      	);
-		
-		*/
-		/*
-		public readFromFile() ==
-		(
-			def mk_(-,input) = IO`freadval[seq of char](filename)
-			in
-			IO`println(input);
-		);
-		*/
-		
 
-    --Buyer operations
-    public addBuyOrder(m:Car`CarModel, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
+    --------------------- BUYER OPERATIONS ---------------------
+    
+    /*
+		* Enables buyers to post their orders to the exchange system
+		*/
+    public addBuyOrder(m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res: BuyOrder ==
     (
 	      bo := new BuyOrder(m,c,y,mi,mp,q);
 	      placeBuyOrder(bo);
@@ -104,6 +151,9 @@ class ExchangeSystem
      )
      ext wr bo;
     
+    /*
+		* Takes a buy order and puts it in the vector with all the buy orders
+		*/
     public placeBuyOrder(bo:BuyOrder) ==
     (
     	bo.setID(len buyOrders + 1);
@@ -112,14 +162,20 @@ class ExchangeSystem
     ext wr buyOrders;
     --post buyOrders = buyOrders ^ [bo];
     
+    /*
+		* Cancels a buy order (NOTE: it doesn't delete it, just changes its status)
+		*/   
     public cancelPurchase(id:nat1) res: bool ==
     (
-    	if buyOrders(id).status <> <Canceled> then buyOrders(id).status := <Canceled>;
+    	if buyOrders(id).getStatus() <> <Canceled> then buyOrders(id).setStatus(<Canceled>);
 			return true;
 		)
 		ext wr buyOrders
 		pre len buyOrders > 0;
     
+    /*
+		* Lists all the buy orders
+		*/
     public listPurchases() ==
 		(
 			for i = 1 to len buyOrders do
@@ -128,48 +184,66 @@ class ExchangeSystem
 		ext rd buyOrders
 		pre len buyOrders > 0;
 		
+		/*
+		* Edit of an existing buy order (its ID is mandatory)
+		*/
 		public updatePurchase(i:nat1, m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res:bool ==
 		(
 			if m <> "" 
-				then buyOrders(i).model := m;
+				then buyOrders(i).setModel(m);
 			if c <> <Null>	
-				then buyOrders(i).color := c;
+				then buyOrders(i).setColor(c);
 			if y <> 0
-				then buyOrders(i).minYear := y;
+				then buyOrders(i).setMinYear(y);
 			if mi <> 0	
-				then buyOrders(i).maxMileage := mi;
+				then buyOrders(i).setMaxMileage(mi);
 			if mp <> 0.0
-				then buyOrders(i).maxPrice := mp;
+				then buyOrders(i).setMaxPrice(mp);
 			if q <> 0
-				then buyOrders(i).quantity := q;
+				then buyOrders(i).setQuantity(q);
 			return true;
 		)
 		ext wr buyOrders
 		pre len buyOrders > 0;
 		
     
+    --------------------- MATCHING OPERATIONS ---------------------
+    
+    /*
+		* Checks if there are any sell order that match the buy order given as an argument
+		*/
     public checkSellOrders(bo:BuyOrder) ==
+    	-- go through the sell orders vector
     	for i = 1 to len sellOrders do
     	(
-    		if sellOrders(i).minBuySize <= bo.quantity then
+    		-- if the quantity ordered is at least as big as the minimum buy size...
+    		if sellOrders(i).getMinBuySize() <= bo.getQuantity() then
 	    	(
-	    		if sellOrders(i).car.model = bo.model or bo.model = "" then
+	    		-- ...and the model of both orders match (or the buy order doesn't specify the model)...
+	    		if sellOrders(i).getCar().getModel() = bo.getModel() or bo.getModel() = "" then
 	    		(
-	    			if sellOrders(i).car.color = bo.color or bo.color = <Null> then
+	    			-- ...and the color of both orders match (or the buy order doesn't specify the color)...
+	    			if sellOrders(i).getCar().getColor() = bo.getColor() or bo.getColor() = <Null> then
 	    			(
-	    				if sellOrders(i).car.year >= bo.minYear then
+	    				-- ...and the year of the sell order is more recent than (or equal to) what the buy order asks for...
+	    				if sellOrders(i).getCar().getYear() >= bo.getMinYear() then
 	    				(
-	    					if sellOrders(i).car.mileage <= bo.maxMileage then
+	    					-- ...and the mileage of the sell order is less than (or equal to) what the buy order asks for...
+	    					if sellOrders(i).getCar().getMileage() <= bo.getMaxMileage() then
 	    					(
-	    						if sellOrders(i).car.price <= bo.maxPrice then
+	    						-- ...and the price asked for the car is less than what the buyer is willing to pay...
+	    						if sellOrders(i).getCar().getPrice() <= bo.getMaxPrice() then
 	    						(
-	    							sellOrders(i).status := <Sold>;
-	    							bo.status := <Purchased>;
+	    							-- ...then there is a transaction.
+	    							sellOrders(i).setStatus(<Sold>);
+	    							bo.setStatus(<Purchased>);
 	    							
-	    							IO`print("Purchase proposal number ");
-	    							IO`print(bo.id);
-	    							IO`print("assigned to sales number ");
-	    							IO`print(sellOrders(i).id);
+	    							addProfits(sellOrders(i).getCar().getPrice() - bo.getMaxPrice());
+	    							
+	    							IO`print("Sell order #");
+	    							IO`print(sellOrders(i).getID());
+	    							IO`print(" matched with buy offer #");
+	    							IO`print(bo.getID());
 										IO`print("\n\n");
 	    						)
 	    					)
@@ -178,7 +252,7 @@ class ExchangeSystem
     			)
     		)
     	)
-    	ext wr sellOrders, buyOrders, bo, so
+    	ext wr sellOrders, buyOrders, bo, so, profits
     	pre len sellOrders > 0;
     
 end ExchangeSystem

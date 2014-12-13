@@ -1,0 +1,37 @@
+class Car
+/*
+	Defines a car on sale placed by seller agent.
+	Class 5, T3, FEUP, MFES, 2014/2015 
+*/
+	types
+		public CarModel = seq of char;
+		public CarColor = <Black> | <White> | <Red> | <Blue> | <Green> | <Yellow> | <Gray> | <Null>;
+				
+	instance variables				
+  	private model: CarModel;
+    private color: CarColor;
+    private year: nat1;
+    private mileage: nat;
+    private price: real;
+    --public sold: bool := false;
+    inv year <= 2014 and year >= 1970;
+    inv price > 0.0;
+    
+        
+	operations
+				/*
+				* Constructor
+				*/
+        public Car(m:CarModel, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
+        (	
+        	model := m; 
+        	color := c; 
+        	year := y; 
+        	mileage := mi;
+        	price := p;
+        	return self;
+        )
+        ext wr model, color, year, mileage, price
+        post model = m and color = c and year = y and mileage = mi and price = p;
+        
+end Car

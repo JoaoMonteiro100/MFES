@@ -1,0 +1,109 @@
+class BuyOrder
+/*
+	Defines the buyer purchase proposal.
+	Class 5, T3, FEUP, MFES, 2014/2015
+*/
+	types
+		public String = seq of char;
+		public Status = <Purchased> | <Pending> | <Canceled>;
+					
+	instance variables
+		private id: nat1 := 1;
+		private status: Status := <Pending>;
+  	private quantity: nat1;
+    private model: String;
+    private color: Car`CarColor;
+    private minYear: nat;
+    private maxMileage: nat;
+    private maxPrice: real;
+  	inv minYear <= 2014 and minYear >= 1970;
+  	
+  operations
+  	/*
+  	* Constructor
+  	*/
+  	public BuyOrder(m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat1) res: BuyOrder ==
+     (
+        model := m; 
+        color := c;
+        if y = 0 then minYear := 1970 else minYear := y;
+        if mi = 0 then maxMileage := 999999 else maxMileage := mi;
+        if mp = 0 then maxPrice := 999999 else maxPrice := mp;
+        quantity := q;
+        return self
+     )
+     ext wr model, color, minYear, maxMileage, maxPrice, quantity
+     post model = m and color = c and quantity = q;
+
+  	/*
+    private minYear: nat;
+    private maxMileage: nat;
+    private maxPrice: real;
+  	*/
+  	
+  	public getID() res: nat1 ==
+  	(
+  		return id;
+  	)
+  	ext rd id;
+  	
+  	public setID(i:nat1) ==
+    (
+    		id := i;
+    )
+    ext wr id
+    post id = i;
+    
+    public getStatus() res: Status ==
+  	(
+  		return status;
+  	)
+  	ext rd status;
+  	
+  	public setStatus(s:Status) ==
+    (
+    		status := s;
+    )
+    ext wr status
+    post status = s;
+    
+    public getQuantity() res: nat1 ==
+  	(
+  		return quantity;
+  	)
+  	ext rd quantity;
+  	
+  	public setQuantity(q:nat1) ==
+    (
+    		quantity := q;
+    )
+    ext wr quantity
+    post quantity = q;
+    
+    public getModel() res: String ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:String) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getColor() res: Car`CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:Car`CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+  	
+end BuyOrder
