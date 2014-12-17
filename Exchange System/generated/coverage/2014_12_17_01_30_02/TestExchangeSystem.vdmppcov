@@ -106,14 +106,13 @@ operations
 	*/
 	public testPurchase() res:seq of BuyOrder ==
 	(
+	 e.addBuyOrder("Mercedes Classe A", <Grey>, 2000, 1200, 40000, 1);
+	 e.addBuyOrder("VW Passat", <Black>, 1996, 200000, 2500, 1);
+	 e.addBuyOrder("Ferrari F50", <Red>, 1994, 122000, 12500, 1);
+	 e.addBuyOrder("Ferrari F50", <Black>, 1998, 140000, 19000, 1);
+	 e.addBuyOrder("Ferrari F50", <Yellow>, 1997, 100000, 35000, 1);
+	 e.addBuyOrder("Ferrari F50", <Yellow>, 1999, 119000, 17500, 1);
 	 e.addBuyOrder("BMW X6", <Blue>, 2009, 40000, 25000, 1);	 
-	 
-	 return e.getBuyOrders();
-	);
-	
-	public testWrongPurchase() res:seq of BuyOrder ==
-	(
-	 e.addBuyOrder("BsMW X6", <Blue>, 2009, 40000, 25000, 1);	 
 	 
 	 return e.getBuyOrders();
 	);

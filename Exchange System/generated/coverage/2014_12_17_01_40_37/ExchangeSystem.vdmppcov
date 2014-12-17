@@ -235,8 +235,6 @@ class ExchangeSystem
 	    						-- ...and the price asked for the car is less than what the buyer is willing to pay...
 	    						if sellOrders(i).getCar().getPrice() <= bo.getMaxPrice() then
 	    						(
-	    							if sellOrders(i).getStatus() <> <Sold> then
-	    						(
 	    							-- ...then there is a transaction.
 	    							sellOrders(i).setStatus(<Sold>);
 	    							bo.setStatus(<Purchased>);
@@ -249,7 +247,6 @@ class ExchangeSystem
 	    							IO`print(" matched with buy offer #");
 	    							IO`print(bo.getID());
 										IO`print("\n\n");
-										)
 	    						)
 	    					)
 	    				)
@@ -257,15 +254,10 @@ class ExchangeSystem
     			)
     		)
     	)
-    	
     	ext wr sellOrders, buyOrders, bo, so, profits
-    	pre len sellOrders > 0 
-    	and len buyOrders > 0 
-    	and bo in set elems buyOrders
-    	and bo.status <> <Purchased>
-    	
+    	pre len sellOrders > 0 and len buyOrders > 0 and bo in set elems buyOrders
     	post so.car.model = bo.model
-    	and (so.car.color = bo.color or bo.color = <Null>)
+    	--and (so.car.color = bo.color or bo.color = <Null>)
     	and so.car.price <= bo.maxPrice
     	and so.minBuySize = bo.quantity
     	and so.car.year <= bo.minYear
