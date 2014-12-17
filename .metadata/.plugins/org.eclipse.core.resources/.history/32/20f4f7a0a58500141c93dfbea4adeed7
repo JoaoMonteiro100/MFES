@@ -1,0 +1,165 @@
+class BuyOrder
+/*
+	Defines the buyer's purchase order.
+	Class 5, T3, FEUP, MFES, 2014/2015
+*/
+	types
+		public String = seq of char;
+		public Status = <Purchased> | <Pending> | <Canceled>;
+					
+	instance variables
+		private id: nat1 := 1;
+		public status: Status := <Pending>;
+  	private quantity: nat1;
+  	private brand: String;
+    private model: String;
+    private fuel: Car`FuelType;
+  	private transmission: Car`TransmissionType;
+  	private minHorsepower: nat1;
+    private color: Car`CarColor;
+    private minYear: nat;
+    private maxMileage: nat;
+    private maxPrice: real;
+  	inv minYear <= 2014 and minYear >= 1970;
+  	
+  operations
+  	/*
+  	* Constructor
+  	*/
+  	public BuyOrder(b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, hp:nat1, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat1) res: BuyOrder ==
+     (
+        brand := b;
+        model := m;
+        fuel := f;
+        transmission := t;
+        minHorsepower := hp;
+        color := c;
+        if y = 0 then minYear := 1970 else minYear := y;
+        if mi = 0 then maxMileage := 999999 else maxMileage := mi;
+        if mp = 0 then maxPrice := 999999 else maxPrice := mp;
+        quantity := q;
+        return self
+     )
+     ext wr brand, model, fuel, transmission, minHorsepower, color, minYear, maxMileage, maxPrice, quantity
+     post brand = b and model = m and fuel = f and transmission = t and minHorsepower = hp and color = c and quantity = q;
+
+		--------------------- GETS & SETS ---------------------
+  	
+  	public getID() res: nat1 ==
+  	(
+  		return id;
+  	)
+  	ext rd id;
+  	
+  	public setID(i:nat1) ==
+    (
+    		id := i;
+    )
+    ext wr id
+    post id = i;
+    
+    public getStatus() res: Status ==
+  	(
+  		return status;
+  	)
+  	ext rd status;
+  	
+  	public setStatus(s:Status) ==
+    (
+    		status := s;
+    )
+    ext wr status
+    post status = s;
+    
+    public getQuantity() res: nat1 ==
+  	(
+  		return quantity;
+  	)
+  	ext rd quantity;
+  	
+  	public setQuantity(q:nat1) ==
+    (
+    		quantity := q;
+    )
+    ext wr quantity
+    post quantity = q;
+    
+    public getBrand() res: String ==
+  	(
+  		return brand;
+  	)
+  	ext rd brand;
+  	
+  	public setBrand(b:String) ==
+    (
+    		brand := b;
+    )
+    ext wr brand
+    post brand = b;
+    
+    public getModel() res: String ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:String) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getColor() res: Car`CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:Car`CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+    
+    public getMinYear() res: nat ==
+  	(
+  		return minYear;
+  	)
+  	ext rd minYear;
+  	
+  	public setMinYear(my:nat) ==
+    (
+    		minYear := my;
+    )
+    ext wr minYear
+    post minYear = my;
+    
+    public getMaxMileage() res: nat ==
+  	(
+  		return maxMileage;
+  	)
+  	ext rd maxMileage;
+  	
+  	public setMaxMileage(mm:nat) ==
+    (
+    		maxMileage := mm;
+    )
+    ext wr maxMileage
+    post maxMileage = mm;
+    
+    public getMaxPrice() res: nat ==
+  	(
+  		return maxPrice;
+  	)
+  	ext rd maxPrice;
+  	
+  	public setMaxPrice(mp:nat) ==
+    (
+    		maxPrice := mp;
+    )
+    ext wr maxPrice
+    post maxPrice = mp;
+  	
+end BuyOrder

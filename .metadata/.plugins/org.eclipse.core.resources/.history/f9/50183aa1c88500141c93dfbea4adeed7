@@ -1,0 +1,152 @@
+class TestExchangeSystem is subclass of MyTestCase
+
+
+instance variables
+
+	public e : ExchangeSystem := new ExchangeSystem();
+		
+operations
+/*
+  Contains the test cases for the exchange system.
+  Illustrates a scenario-based testing approach.
+  Uncomment the tests before running them.
+  Class 5, T3, FEUP, MFES, 2014/2015.
+*/
+
+	/***** USE CASE SCENARIOS ******/
+	 /*
+	 Requirement R05 - Car year canno't be bigger than 2014 (current year) neither smaller than 1970.
+	 */
+
+	 public testYearCar() res:bool ==
+	 (
+	 	
+	   for i = 1 to len e.getSellOrders() do
+	   (
+	     assertNotLesser(1970, e.getSellOrders()(i).getCar().getYear());
+	     assertNotGreater(2014, e.getSellOrders()(i).getCar().getYear());
+	    );
+	 		
+	    for i = 1 to len e.getBuyOrders() do
+	    (
+	 	assertNotLesser(1970, e.getBuyOrders()(i).getMinYear());
+	 	assertNotGreater(2014, e.getBuyOrders()(i).getMinYear());
+	 			
+	     );
+
+	  return true;
+	 );
+	 
+	  /*
+	 Requirement R06 - Car price cannot be bigger than 999999 neither smaller than 0.0
+	 */
+	 
+	 
+	 public testPriceCar() res:bool ==
+	 (
+	   for i = 1 to len e.getSellOrders() do
+	   (
+	 	assertNotLesser(0.0, e.getSellOrders()(i).getCar().getPrice());
+	 	assertNotGreater(999999, e.getSellOrders()(i).getCar().getPrice());
+	    );
+	 		
+	    for i = 1 to len e.getBuyOrders() do
+	    (
+	 	assertNotLesser(0.0, e.getBuyOrders()(i).getMaxPrice());
+	 	assertNotGreater(999999, e.getBuyOrders()(i).getMaxPrice());
+	     );
+	 		
+	  return true;
+	 );
+	 
+	 /*
+	 Requirement R07 - Seller minimum quantity and buyer quantity canno't be smaller than 1.
+	 */
+	 
+	 public testMinimumQuantity() res:bool ==
+	 (
+	   for i = 1 to len e.getSellOrders() do
+	 	assertNotLesser(1, e.getSellOrders()(i).getMinBuySize());
+	 		
+	   for i = 1 to len e.getBuyOrders() do
+	 	assertNotLesser(1, e.getBuyOrders()(i).getQuantity());
+	 		
+	   return true;
+	 );
+	 
+	 /*
+	 Requirement R08 - Seller minimum quantity canno't be bigger than his maximum quantity
+	 */
+	 public testSellerQuantity() res:bool ==
+	 (
+	   for i = 1 to len e.getSellOrders() do
+	 	assertNotLesser(e.getSellOrders()(i).getMinBuySize(),e.getSellOrders()(i).getSize());
+	 			
+	   return true;
+	 );
+	 
+	  /*
+	 Requirement R09 - Seller place a car on sale.
+	 */
+	 public testSale() res:seq of SellOrder ==
+	 (
+	  e.addSellOrder("Ferrari", "F50", <Diesel>, <Semiautomatic>, 562, <Red>, 1997, 150000, 15000, 1, 2);
+	  e.addSellOrder("Ferrari", "Enzo", <Hybrid>, <Automatic>, 358, <Red>, 2012, 90000, 20000, 1, 2);
+	  e.addSellOrder("Renault", "Clio", <Gasoline>, <Manual>, 94, <White>, 2000, 135000, 2000, 1, 2);
+	  e.addSellOrder("Peugeot", "206", <Gasoline>, <Manual>, 226, <Grey>, 2005, 46000, 4500, 1, 2);
+	  e.addSellOrder("VW", "Passat", <Electric>, <Semiautomatic>, 278, <Black>, 1996, 239000, 3000, 1, 2);
+	  e.addSellOrder("BMW", "X6", <Hybrid>, <Automatic>, 272, <Blue>, 2009, 40000, 25000, 1, 2);
+	  e.addSellOrder("Ferrari", "F50", <Diesel>, <Automatic>, 444, <Yellow>, 1998, 220000, 40000, 1, 2);
+	  
+	  return e.getSellOrders();
+	 );
+	 
+	/*
+	Requirement R10 - Buyer purchase proposal.
+	*/
+	public testPurchase() res:seq of BuyOrder ==
+	(
+	 e.addBuyOrder("Mercedes", "Classe A", <Hybrid>, <Automatic>, 250, <Grey>, 2000, 1200, 40000, 1);
+	 e.addBuyOrder("VW", "Passat", <Black>, 1996, 200000, 2500, 1);
+	 e.addBuyOrder("Ferrari", "F50", <Diesel>, <Semiautomatic>, 555, <Red>, 1994, 122000, 12500, 1);
+	 e.addBuyOrder("Ferrari", "F50", <Black>, 1998, 140000, 19000, 1);
+	 e.addBuyOrder("Ferrari", "F50", <Yellow>, 1997, 100000, 35000, 1);
+	 e.addBuyOrder("Ferrari", "F50", <Yellow>, 1999, 119000, 17500, 1);
+	 e.addBuyOrder("BMW", "X6", <Blue>, 2009, 40000, 25000, 1);	 
+	 
+	 return e.getBuyOrders();
+	);
+	
+	 /*
+	 Requirement R11 - Seller cancels a sale.
+	 */
+	 public testCancelSale() res:bool ==
+	 (
+	  e.cancelSale(len e.getSellOrders());
+	 );
+
+	 /*
+	 Requirement R12 - Buyer cancels a purchase.
+	 */
+	 public testCancelPurchase() res:bool ==
+	 (
+	  e.cancelPurchase(len e.getBuyOrders());
+	 );
+	 
+	 /*
+	 Requirement R13 - Seller updates his sale.
+	 */
+	 public testUpdateSale() res:bool ==
+	 (
+	  e.updateSale(len e.getSellOrders(), "Porsche 911", <White>, 2006, 0, 29800, 1, 1);
+	 );
+	 
+	  /*
+	 Requirement R14 - Seller updates his sale.
+	 */
+	 public testUpdatePurchase() res:bool ==
+	 (
+	  e.updatePurchase(len e.getBuyOrders(), "Porsche 911", <White>, 2006, 0, 29800, 1);
+	 );
+
+end TestExchangeSystem

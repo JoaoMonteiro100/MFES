@@ -5,10 +5,16 @@ class Car
 */
 	types
 		public String = seq of char;
-		public CarColor = <Black> | <White> | <Red> | <Blue> | <Green> | <Yellow> | <Grey> | <Null>;
+		public CarColor = <Black> | <Grey> | <White> | <Blue> | <Green> | <Yellow> | <Red> | <Pink> | <Null>;
+		public FuelType = <Gasoline> | <Diesel> | <LPG> | <Hybrid> | <Electric> | <Null>;
+		public TransmissionType = <Manual> | <Automatic> | <Semiautomatic> | <Null>;
 				
-	instance variables				
+	instance variables			
+		private brand: String;
   	private model: String;
+  	private fuel: FuelType;
+  	private transmission: TransmissionType;
+  	private horsepower: nat1;
     private color: CarColor;
     private year: nat1;
     private mileage: nat;
@@ -20,20 +26,37 @@ class Car
 		/*
 		* Constructor
 		*/
-    public Car(m:String, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
+    public Car(b:String, m:String, f:FuelType, t:TransmissionType, hp:nat1, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
     (	
+    	brand := b;
     	model := m; 
+    	fuel := f;
+    	transmission := t;
+    	horsepower := hp;
     	color := c; 
     	year := y; 
     	mileage := mi;
     	price := p;
     	return self;
     )
-    ext wr model, color, year, mileage, price
-    post model = m and color = c and year = y and mileage = mi and price = p;
+    ext wr brand, model, fuel, transmission, horsepower, color, year, mileage, price
+    post brand = b and model = m and fuel = f and transmission = t and horsepower = hp and color = c and year = y and mileage = mi and price = p;
     
     --------------------- GETS & SETS ---------------------
         
+		public getBrand() res: String ==
+  	(
+  		return brand;
+  	)
+  	ext rd brand;
+  	
+  	public setBrand(b:String) ==
+    (
+    		brand := b;
+    )
+    ext wr brand
+    post brand = b;
+		
 		public getModel() res: String ==
   	(
   		return model;
@@ -46,6 +69,45 @@ class Car
     )
     ext wr model
     post model = m;
+    
+    public getFuel() res: FuelType ==
+  	(
+  		return fuel;
+  	)
+  	ext rd fuel;
+  	
+  	public setFuel(f:FuelType) ==
+    (
+    		fuel := f;
+    )
+    ext wr fuel
+    post fuel = f;
+    
+    public getTransmission() res: TransmissionType ==
+  	(
+  		return transmission;
+  	)
+  	ext rd transmission;
+  	
+  	public setTransmission(t:TransmissionType) ==
+    (
+    		transmission := t;
+    )
+    ext wr transmission
+    post transmission = t;
+    
+    public getHorsepower() res: nat1 ==
+  	(
+  		return horsepower;
+  	)
+  	ext rd horsepower;
+  	
+  	public setHorsepower(hp:nat1) ==
+    (
+    		horsepower := hp;
+    )
+    ext wr horsepower
+    post horsepower = hp;
     
     public getColor() res: CarColor ==
   	(

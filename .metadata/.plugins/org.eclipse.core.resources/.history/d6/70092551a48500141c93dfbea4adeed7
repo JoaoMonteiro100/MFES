@@ -1,0 +1,151 @@
+class Car
+/*
+	Defines a car on sale placed by seller agent.
+	Class 5, T3, FEUP, MFES, 2014/2015 
+*/
+	types
+		public String = seq of char;
+		public CarColor = <Black> | <Grey> | <White> | <Blue> | <Green> | <Yellow> | <Red> | <Pink> | <Null>;
+		public FuelType = <Gasoline> | <Diesel> | <LPG> | <Hybrid> | <Electric> | <Null>;
+		public TransmissionType = <Manual> | <Automatic> | <Semiautomatic> | <Null>;
+				
+	instance variables			
+		private brand: String;
+  	private model: String;
+  	private fuel: FuelType;
+  	private transmission: TransmissionType;
+  	private horsepower: nat1;
+    private color: CarColor;
+    private year: nat1;
+    private mileage: nat;
+    private price: real;
+    inv year <= 2014 and year >= 1970;
+    inv price > 0.0;
+    
+	operations
+		/*
+		* Constructor
+		*/
+    public Car(b:String, m:String, f:FuelType, t:TransmissionType, hp:nat1, c:CarColor, y:nat1, mi:nat, p:real) res: Car ==
+    (	
+    	brand := b;
+    	model := m; 
+    	fuel := f;
+    	transmission := t;
+    	horsepower := hp;
+    	color := c; 
+    	year := y; 
+    	mileage := mi;
+    	price := p;
+    	return self;
+    )
+    ext wr brand, model, fuel, transmission, horsepower, color, year, mileage, price
+    post brand = b and model = m and fuel = f and transmission = t and horsepower = hp and color = c and year = y and mileage = mi and price = p;
+    
+    --------------------- GETS & SETS ---------------------
+        
+		public getModel() res: String ==
+  	(
+  		return model;
+  	)
+  	ext rd model;
+  	
+  	public setModel(m:String) ==
+    (
+    		model := m;
+    )
+    ext wr model
+    post model = m;
+    
+    public getFuel() res: FuelType ==
+  	(
+  		return fuel;
+  	)
+  	ext rd fuel;
+  	
+  	public setFuel(f:FuelType) ==
+    (
+    		fuel := f;
+    )
+    ext wr fuel
+    post fuel = f;
+    
+    public getTransmission() res: TransmissionType ==
+  	(
+  		return transmission;
+  	)
+  	ext rd transmission;
+  	
+  	public setTransmission(t:TransmissionType) ==
+    (
+    		transmission := t;
+    )
+    ext wr transmission
+    post transmission = t;
+    
+    public getHorsepower() res: nat1 ==
+  	(
+  		return horsepower;
+  	)
+  	ext rd horsepower;
+  	
+  	public setHorsepower(hp:nat1) ==
+    (
+    		horsepower := hp;
+    )
+    ext wr horsepower
+    post horsepower = hp;
+    
+    public getColor() res: CarColor ==
+  	(
+  		return color;
+  	)
+  	ext rd color;
+  	
+  	public setColor(c:CarColor) ==
+    (
+    		color := c;
+    )
+    ext wr color
+    post color = c;
+    
+    public getYear() res: nat1 ==
+  	(
+  		return year;
+  	)
+  	ext rd year;
+  	
+  	public setYear(y:nat1) ==
+    (
+    		year := y;
+    )
+    ext wr year
+    post year = y;
+    
+    public getMileage() res: nat ==
+  	(
+  		return mileage;
+  	)
+  	ext rd mileage;
+  	
+  	public setMileage(m:nat) ==
+    (
+    		mileage := m;
+    )
+    ext wr mileage
+    post mileage = m;
+    
+    public getPrice() res: real ==
+  	(
+  		return price;
+  	)
+  	ext rd price;
+  	
+  	public setPrice(p:real) ==
+    (
+    		price := p;
+    )
+    ext wr price
+    post price = p;
+        
+end Car

@@ -71,9 +71,9 @@ class ExchangeSystem
 		/*
 		* Enables sellers to post their cars to the exchange system
 		*/
-		public addSellOrder(m:String, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, os:nat1) ==
+		public addSellOrder(b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, hp:nat1, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, os:nat1) ==
     (
-     	so := new SellOrder(m,c,y,mi,p,mbs,os);
+     	so := new SellOrder(b,m,f,t,hp,c,y,mi,p,mbs,os);
       placeSellOrder(so);
     )
     ext wr so;
@@ -114,10 +114,18 @@ class ExchangeSystem
 		/*
 		* Edit of an existing sale order (its ID is mandatory)
 		*/
-		public updateSale(i:nat1, m:String, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res:bool ==
+		public updateSale(i:nat1, b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, hp:nat1, c:Car`CarColor, y:nat, mi:nat, p:real, mbs:nat, os:nat) res:bool ==
 		(
+			if b <> ""
+				then sellOrders(i).car.setBrand(b);
 			if m <> "" 
 				then sellOrders(i).car.setModel(m);
+			if f <> <Null>	
+				then sellOrders(i).car.setFuel(f);
+			if t <> <Null>	
+				then sellOrders(i).car.setTransmission(t);
+			if hp <> 0
+				then sellOrders(i).car.setHorsepower(hp);
 			if c <> <Null>	
 				then sellOrders(i).car.setColor(c);
 			if y <> 0
@@ -142,9 +150,9 @@ class ExchangeSystem
     /*
 		* Enables buyers to post their orders to the exchange system
 		*/
-    public addBuyOrder(m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) ==
+    public addBuyOrder(b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, mhp:nat1, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) ==
     (
-	      bo := new BuyOrder(m,c,y,mi,mp,q);
+	      bo := new BuyOrder(b,m,f,t,mhp,c,y,mi,mp,q);
 	      placeBuyOrder(bo);
 	      checkSellOrders(bo);
      )
@@ -188,10 +196,18 @@ class ExchangeSystem
 		/*
 		* Edit of an existing buy order (its ID is mandatory)
 		*/
-		public updatePurchase(i:nat1, m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res:bool ==
+		public updatePurchase(i:nat1, b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, mhp:nat1, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat) res:bool ==
 		(
+			if b <> ""
+				then buyOrders(i).setBrand(b);
 			if m <> "" 
 				then buyOrders(i).setModel(m);
+			if f <> <Null>	
+				then buyOrders(i).setFuel(f);
+			if t <> <Null>	
+				then buyOrders(i).setTransmission(t);
+			if mhp <> 0
+				then buyOrders(i).setMinHorsepower(mhp);
 			if c <> <Null>	
 				then buyOrders(i).setColor(c);
 			if y <> 0
@@ -220,37 +236,54 @@ class ExchangeSystem
     		-- if the quantity ordered is at least as big as the minimum buy size...
     		if sellOrders(i).getMinBuySize() <= bo.getQuantity() then
 	    	(
-	    		-- ...and the model of both orders match (or the buy order doesn't specify the model)...
-	    		if sellOrders(i).getCar().getModel() = bo.getModel() or bo.getModel() = "" then
+	    		-- ...and the brand of both orders match (or the buy order doesn't specify the brand)...
+	    		if sellOrders(i).getCar().getBrand() = bo.getBrand() or bo.getBrand() = "" then
 	    		(
-	    			-- ...and the color of both orders match (or the buy order doesn't specify the color)...
-	    			if sellOrders(i).getCar().getColor() = bo.getColor() or bo.getColor() = <Null> then
-	    			(
-	    				-- ...and the year of the sell order is more recent than (or equal to) what the buy order asks for...
-	    				if sellOrders(i).getCar().getYear() >= bo.getMinYear() then
-	    				(
-	    					-- ...and the mileage of the sell order is less than (or equal to) what the buy order asks for...
-	    					if sellOrders(i).getCar().getMileage() <= bo.getMaxMileage() then
-	    					(
-	    						-- ...and the price asked for the car is less than what the buyer is willing to pay...
-	    						if sellOrders(i).getCar().getPrice() <= bo.getMaxPrice() then
-	    						(
-	    							-- ...then there is a transaction.
-	    							sellOrders(i).setStatus(<Sold>);
-	    							bo.setStatus(<Purchased>);
-	    							
-	    							addProfits(sellOrders(i).getCar().getPrice() - bo.getMaxPrice());
-	    							
-	    							IO`print("Sell order #");
-	    							IO`print(sellOrders(i).getID());
-	    							IO`print(" matched with buy offer #");
-	    							IO`print(bo.getID());
-										IO`print("\n\n");
-	    						)
-	    					)
-	    				)
+		    		-- ...and the model of both orders match (or the buy order doesn't specify the model)...
+		    		if sellOrders(i).getCar().getModel() = bo.getModel() or bo.getModel() = "" then
+		    		(
+		    			-- ...and the fuel type of both orders match (or the buy order doesn't specify the fuel type)...
+		    			if sellOrders(i).getCar().getFuel() = bo.getFuel() or bo.getFuel() = <Null> then
+		    			(
+		    				-- ...and the transmission type of both orders match (or the buy order doesn't specify the transmission type)...
+			    			if sellOrders(i).getCar().getTransmission() = bo.getTransmission() or bo.getTransmission() = <Null> then
+			    			(
+			    				-- ...and the horsepower of the sell order is bigger than (or equal to) what the buy order asks for...
+			    				if sellOrders(i).getCar().getHorsepower() >= bo.getMinHorsepower() then
+			    				(
+					    			-- ...and the color of both orders match (or the buy order doesn't specify the color)...
+					    			if sellOrders(i).getCar().getColor() = bo.getColor() or bo.getColor() = <Null> then
+					    			(
+					    				-- ...and the year of the sell order is more recent than (or equal to) what the buy order asks for...
+					    				if sellOrders(i).getCar().getYear() >= bo.getMinYear() then
+					    				(
+					    					-- ...and the mileage of the sell order is less than (or equal to) what the buy order asks for...
+					    					if sellOrders(i).getCar().getMileage() <= bo.getMaxMileage() then
+					    					(
+					    						-- ...and the price asked for the car is less than what the buyer is willing to pay...
+					    						if sellOrders(i).getCar().getPrice() <= bo.getMaxPrice() then
+					    						(
+					    							-- ...then there is a transaction.
+					    							sellOrders(i).setStatus(<Sold>);
+					    							bo.setStatus(<Purchased>);
+					    							
+					    							-- we take the difference of the prices as profit for ourselves
+					    							addProfits(sellOrders(i).getCar().getPrice() - bo.getMaxPrice());
+					    							
+					    							IO`print("Sell order #");
+					    							IO`print(sellOrders(i).getID());
+					    							IO`print(" matched with buy offer #");
+					    							IO`print(bo.getID());
+														IO`print("\n\n");
+					    						)
+					    					)
+					    				)
+					    			)
+					    		)
+					    	)
+					    )
 	    			)
-    			)
+	    		)
     		)
     	)
     	ext wr sellOrders, buyOrders, bo, so, profits

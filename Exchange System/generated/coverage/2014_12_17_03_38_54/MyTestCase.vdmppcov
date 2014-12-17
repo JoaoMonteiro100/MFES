@@ -1,0 +1,30 @@
+class MyTestCase
+/*
+  Superclass for test classes. 
+  Class 5, T3, FEUP, MFES, 2014/2015.
+*/
+
+operations
+	protected assertNotLesser: ? * ? ==> ()
+	assertNotLesser(expected, actual) ==  
+		if expected > actual then (
+  			IO`print("Actual value ");
+  			IO`print(actual); 
+  			IO`print(" must be greater than ");
+  			IO`print(expected);
+  			IO`println("\n")
+		)
+	post expected <= actual;
+	
+	protected assertNotGreater: ? * ? ==> ()
+	assertNotGreater(expected, actual) ==  
+		if expected < actual then (
+  			IO`print("Actual value ");
+  			IO`print(actual); 
+  			IO`print(" must be lesser than ");
+  			IO`print(expected);
+  			IO`println("\n")
+		)
+	post expected >= actual
+  
+end MyTestCase

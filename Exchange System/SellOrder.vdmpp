@@ -19,9 +19,9 @@ class SellOrder
     	/*
     	* Constructor
     	*/
-    	public SellOrder(m:String, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, s:nat1) res: SellOrder ==
+    	public SellOrder(b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, hp:nat1, c:Car`CarColor, y:nat1, mi:nat, p:real, mbs:nat1, s:nat1) res: SellOrder ==
       (
-        car := new Car(m,c,y,mi,p);
+        car := new Car(b,m,f,t,hp,c,y,mi,p);
         minBuySize := mbs; 
         size := s;
         return self

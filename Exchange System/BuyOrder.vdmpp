@@ -11,7 +11,11 @@ class BuyOrder
 		private id: nat1 := 1;
 		public status: Status := <Pending>;
   	private quantity: nat1;
+  	private brand: String;
     private model: String;
+    private fuel: Car`FuelType;
+  	private transmission: Car`TransmissionType;
+  	private minHorsepower: nat1;
     private color: Car`CarColor;
     private minYear: nat;
     private maxMileage: nat;
@@ -22,9 +26,13 @@ class BuyOrder
   	/*
   	* Constructor
   	*/
-  	public BuyOrder(m:String, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat1) res: BuyOrder ==
+  	public BuyOrder(b:String, m:String, f:Car`FuelType, t:Car`TransmissionType, mhp:nat1, c:Car`CarColor, y:nat, mi:nat, mp:real, q:nat1) res: BuyOrder ==
      (
-        model := m; 
+        brand := b;
+        model := m;
+        fuel := f;
+        transmission := t;
+        minHorsepower := mhp;
         color := c;
         if y = 0 then minYear := 1970 else minYear := y;
         if mi = 0 then maxMileage := 999999 else maxMileage := mi;
@@ -32,8 +40,8 @@ class BuyOrder
         quantity := q;
         return self
      )
-     ext wr model, color, minYear, maxMileage, maxPrice, quantity
-     post model = m and color = c and quantity = q;
+     ext wr brand, model, fuel, transmission, minHorsepower, color, minYear, maxMileage, maxPrice, quantity
+     post brand = b and model = m and fuel = f and transmission = t and minHorsepower = mhp and color = c and quantity = q;
 
 		--------------------- GETS & SETS ---------------------
   	
@@ -76,6 +84,19 @@ class BuyOrder
     ext wr quantity
     post quantity = q;
     
+    public getBrand() res: String ==
+  	(
+  		return brand;
+  	)
+  	ext rd brand;
+  	
+  	public setBrand(b:String) ==
+    (
+    		brand := b;
+    )
+    ext wr brand
+    post brand = b;
+    
     public getModel() res: String ==
   	(
   		return model;
@@ -88,6 +109,45 @@ class BuyOrder
     )
     ext wr model
     post model = m;
+    
+    public getFuel() res: Car`FuelType ==
+  	(
+  		return fuel;
+  	)
+  	ext rd fuel;
+  	
+  	public setFuel(f:Car`FuelType) ==
+    (
+    		fuel := f;
+    )
+    ext wr fuel
+    post fuel = f;
+    
+    public getTransmission() res: Car`TransmissionType ==
+  	(
+  		return transmission;
+  	)
+  	ext rd transmission;
+  	
+  	public setTransmission(t:Car`TransmissionType) ==
+    (
+    		transmission := t;
+    )
+    ext wr transmission
+    post transmission = t;
+    
+    public getMinHorsepower() res: nat1 ==
+  	(
+  		return minHorsepower;
+  	)
+  	ext rd minHorsepower;
+  	
+  	public setMinHorsepower(mhp:nat1) ==
+    (
+    		minHorsepower := mhp;
+    )
+    ext wr minHorsepower
+    post minHorsepower = mhp;
     
     public getColor() res: Car`CarColor ==
   	(
